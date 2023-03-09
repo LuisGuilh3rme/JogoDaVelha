@@ -15,7 +15,7 @@ do
     {
         Console.Clear();
         ImprimirTabuleiro(tabuleiro);
-        Console.WriteLine("Simbolo atual [{0}]:", simbolo);
+        Console.WriteLine("\nSimbolo atual [{0}]:", simbolo);
         string posicao = Console.ReadLine();
         if (int.Parse(posicao) > 9 || int.Parse(posicao) < 0)
         {
@@ -44,7 +44,7 @@ if (!velha)
 }
 Console.WriteLine("Fim de jogo");
 
-// Inicializar
+// Inicializar tabuleiro
 void InicializarTabuleiro(char[,] tabuleiro)
 {
     int contador = 0;
@@ -62,11 +62,22 @@ void InicializarTabuleiro(char[,] tabuleiro)
 // Imprimindo tabuleiro
 void ImprimirTabuleiro(char[,] tabuleiro)
 {
+    ConsoleColor aux = Console.ForegroundColor;
     for (int i = 0; i < tabuleiro.GetLength(0); i++)
     {
+        Console.Write("\t");
         for (int j = 0; j < tabuleiro.GetLength(1); j++)
         {
-            Console.Write(" " + tabuleiro[i, j]);
+            // Troca de cores caso condição seja verdadeira
+            if (tabuleiro[i,j] == 'O') Console.ForegroundColor = ConsoleColor.Blue;
+            else if (tabuleiro[i, j] == 'X') Console.ForegroundColor = ConsoleColor.Red;
+
+            Console.Write("{0}", tabuleiro[i, j]);
+
+            // Retornar à cor padrão
+            Console.ForegroundColor = aux;
+
+            if (j != 2) Console.Write("\t|\t");
         }
         Console.WriteLine();
     }
