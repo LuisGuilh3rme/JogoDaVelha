@@ -1,68 +1,46 @@
 ﻿// Declaração de variáveis
 char[,] tabuleiro = new char[3, 3];
+char simbolo = 'X';
 int rodada = 0;
-char simbolo = 'O';
-bool vitoria = false;
 bool velha = false;
-bool jogadaValida = false;
 
 // Programa
 InicializarTabuleiro(tabuleiro);
+
 do
 {
-    simbolo = TrocaSimbolo(simbolo);
-    do
-    {
-        Console.Clear();
-        ImprimirTabuleiro(tabuleiro);
-        Console.WriteLine("\nSimbolo atual [{0}]:", simbolo);
-        string posicao = Console.ReadLine();
-        if (int.Parse(posicao) > 9 || int.Parse(posicao) < 0)
-        {
-            Console.WriteLine("Posição inexistente");
-            continue;
-        }
-        char posicaoChar = char.Parse(posicao);
-        jogadaValida = EscolherPosicao(posicaoChar, simbolo, tabuleiro);
-    } while (!jogadaValida);
-
+    PrepararJogada(simbolo, tabuleiro);
     rodada++;
-    if (rodada >= 5)
-    {
-        vitoria = VerificarVitoria(tabuleiro);
-    }
+    
+    if (VerificarFim(rodada, tabuleiro, ref velha)) break;
+    simbolo = TrocaSimbolo(simbolo);
+} while (true);
 
-    if (rodada == 9 && !vitoria) {
-        velha = true;
-        Console.WriteLine("Deu velha!");
-        break;
-    }
-} while (!vitoria);
-if (!velha)
-{
-    Console.WriteLine("Vitória do jogador com simbolo [{0}]", simbolo);
-}
+ImprimirTabuleiro(tabuleiro);
+if (!velha) Console.WriteLine("Vitória do jogador {0}", (simbolo == 'X' ? 1 : 2));
 Console.WriteLine("Fim de jogo");
 
-// Inicializar tabuleiro
+// Inicializar o tabuleiro atribuindo posições entendíveis para o usuário
 void InicializarTabuleiro(char[,] tabuleiro)
 {
-    int contador = 0;
+    int contador = 1;
 
     for (int i = 0; i < tabuleiro.GetLength(0); i++)
     {
         for (int j = 0; j < tabuleiro.GetLength(1); j++)
         {
-            tabuleiro[i, j] = char.Parse($"{contador + 1}");
+            tabuleiro[i, j] = char.Parse($"{contador}");
             contador++;
         }
     }
 }
 
-// Imprimindo tabuleiro
+// Imprimindo o tabuleiro
 void ImprimirTabuleiro(char[,] tabuleiro)
 {
+    Console.Clear();
     ConsoleColor aux = Console.ForegroundColor;
+
     for (int i = 0; i < tabuleiro.GetLength(0); i++)
     {
         Console.Write("\t");
@@ -83,18 +61,26 @@ void ImprimirTabuleiro(char[,] tabuleiro)
     }
 }
 
-// TrocaSimbolo
+// Prepara e realiza jogada no tabuleiro
+void PrepararJogada (char simbolo, char[,] tabuleiro)
+{
+    ImprimirTabuleiro(tabuleiro);
+    Console.WriteLine("\nSimbolo atual [{0}]:", simbolo);
+    char.TryParse(Console.ReadLine(), out char posicao);
+
+    // Caso jogada for inválida, reiniciar função através de recursiva
+    if (!ExecutarJogada(posicao, simbolo, tabuleiro)) PrepararJogada(simbolo, tabuleiro);
+}
+
+// Troca o simbolo conforme o que já está sendo utilizado
 char TrocaSimbolo(char simbolo)
 {
-    if (simbolo == 'O')
-    {
-        return 'X';
-    }
+    if (simbolo == 'O')  return 'X';
     return 'O';
 }
 
 // Escolher posição
-bool EscolherPosicao (char posicao, char simbolo, char[,] tabuleiro)
+bool ExecutarJogada (char posicao, char simbolo, char[,] tabuleiro)
 {
     for (int i = 0; i < tabuleiro.GetLength(0); i++)
     {
@@ -106,6 +92,23 @@ bool EscolherPosicao (char posicao, char simbolo, char[,] tabuleiro)
                 return true;
             }
         }
+    }
+    return false;
+}
+
+// Verificação de fim de jogo
+bool VerificarFim (int rodada, char[,] tabuleiro, ref bool velha)
+{
+    if (rodada >= 5)
+    {
+        if (VerificarVitoria(tabuleiro)) return true;
+    }
+
+    if (rodada == 9)
+    {
+        Console.WriteLine("Deu velha!");
+        velha = true;
+        return true;
     }
     return false;
 }
