@@ -18,6 +18,11 @@ do
 
 ImprimirTabuleiro(tabuleiro);
 if (!velha) Console.WriteLine("Vitória do jogador {0}", (simbolo == 'X' ? 1 : 2));
+else
+{
+    Console.WriteLine("Empate");
+    Console.Beep();
+}
 Console.WriteLine("Fim de jogo");
 
 // Inicializar o tabuleiro atribuindo posições entendíveis para o usuário
