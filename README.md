@@ -4,17 +4,17 @@
 Popular jogo da velha refeito para ser jogado em linhas de comando, feito para ser jogado com 2 jogadores.
 
 ## Guia básico de jogo da velha
-<img src="https://user-images.githubusercontent.com/89887370/224200370-a36e5369-68db-4fab-b1d8-e48b7c42e66c.PNG" width="500">
+<img src="https://user-images.githubusercontent.com/89887370/224200370-a36e5369-68db-4fab-b1d8-e48b7c42e66c.PNG" width="500" alt="Desenho de um tabuleiro de jogo da velha, as posições ainda estão vazias">
 
 Dois jogadores competem pela vitória através de uma sequência de três caracteres iguais em uma linha, sendo ela horizontal, vertical ou diagonal.
 
 Uma grade de quadrados 3X3 é desenhada na tela, os jogadores devem se decidir quem será o símbolo 'X' e qual será o 'O'
 
-<img src="https://user-images.githubusercontent.com/89887370/224200464-b26632c9-a5d6-48b6-abc6-b933e0029d74.PNG" width="500">
+<img src="https://user-images.githubusercontent.com/89887370/224200464-b26632c9-a5d6-48b6-abc6-b933e0029d74.PNG" width="500" alt="Exemplo de vitória de jogador com o símbolo X através de uma sequência horizontal">
 
 Se o tabuleiro for preenchido e não houver nenhum ganhador, temos o chamado de VELHA, em que há um empate e o jogo é encerrado.
 
-<img src="https://user-images.githubusercontent.com/89887370/224200528-027ea535-4841-4ccb-a061-b61e502a0325.PNG" width="500">
+<img src="https://user-images.githubusercontent.com/89887370/224200528-027ea535-4841-4ccb-a061-b61e502a0325.PNG" width="500" alt="Exemplo de jogo onde houve empate, nenhuma sequência por nenhum símbolo foi realizada">
 
 ## Como jogar
 É muito simples de ser utilizado, ao rodar o executável, basta o jogador do símbolo atual escolher a posição desejada e teclar enter.
