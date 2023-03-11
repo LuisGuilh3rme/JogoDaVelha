@@ -22,6 +22,7 @@ Se o tabuleiro for preenchido e não houver nenhum ganhador, temos o chamado de 
 Após uma sucessão de jogadas, já é possível determinar se há uma vitória ou não, caso o tabuleiro seja totalmente preenchido sem um ganhador, teremos velha.
 
 ## Instalação
+Necessário .Net sdk 6.0 [Clique aqui](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 
 Baixe o arquivo .zip e o extraia. Procure a extensão .cs e abra o prompt de comando no diretório.
 
