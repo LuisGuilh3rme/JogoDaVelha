@@ -46,31 +46,31 @@ void ImprimirTabuleiro(char[,] tabuleiro)
     Console.Clear();
     ConsoleColor aux = Console.ForegroundColor;
 
+    Console.WriteLine();
     for (int i = 0; i < tabuleiro.GetLength(0); i++)
     {
-        Console.Write("\t");
         for (int j = 0; j < tabuleiro.GetLength(1); j++)
         {
             // Troca de cores caso condição seja verdadeira
             if (tabuleiro[i,j] == 'O') Console.ForegroundColor = ConsoleColor.Blue;
             else if (tabuleiro[i, j] == 'X') Console.ForegroundColor = ConsoleColor.Red;
 
-            Console.Write("{0}", tabuleiro[i, j]);
+            Console.Write(" {0} ", tabuleiro[i, j]);
 
             // Retornar à cor padrão
             Console.ForegroundColor = aux;
-
-            if (j != 2) Console.Write("\t|\t");
+            if (j != 2) Console.Write("|");
         }
-        Console.WriteLine();
+        if (i != 2)Console.WriteLine("\n---|---|---");
     }
+    Console.WriteLine();
 }
 
 // Prepara e realiza jogada no tabuleiro
 void PrepararJogada (char simbolo, char[,] tabuleiro)
 {
     ImprimirTabuleiro(tabuleiro);
-    Console.WriteLine("\nSimbolo atual [{0}]:", simbolo);
+    Console.Write("\nSimbolo atual [{0}]: ", simbolo);
     char.TryParse(Console.ReadLine(), out char posicao);
 
     // Caso jogada for inválida, reiniciar função através de recursiva
@@ -84,7 +84,7 @@ char TrocaSimbolo(char simbolo)
     return 'O';
 }
 
-// Escolher posição
+// Executar a jogada
 bool ExecutarJogada (char posicao, char simbolo, char[,] tabuleiro)
 {
     for (int i = 0; i < tabuleiro.GetLength(0); i++)
