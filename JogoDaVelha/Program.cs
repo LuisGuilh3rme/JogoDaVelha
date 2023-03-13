@@ -2,14 +2,14 @@
 char[,] tabuleiro = new char[3, 3];
 char simbolo = 'X';
 int rodada = 0;
-bool velha = false;
+int velha = 0;
 
 // Programa
 InicializarTabuleiro(tabuleiro);
 
 do
 {
-    PrepararJogada(simbolo, tabuleiro);
+    PrepararJogada(simbolo, tabuleiro, velha);
     rodada++;
     
     if (VerificarFim(rodada, tabuleiro, ref velha)) break;
@@ -17,7 +17,7 @@ do
 } while (true);
 
 ImprimirTabuleiro(tabuleiro);
-if (!velha) Console.WriteLine("Vitória do jogador {0}", (simbolo == 'X' ? 1 : 2));
+if (velha == 0) Console.WriteLine("Vitória do jogador {0}", (simbolo == 'X' ? 1 : 2));
 else
 {
     Console.WriteLine("Empate");
@@ -64,17 +64,19 @@ void ImprimirTabuleiro(char[,] tabuleiro)
         if (i != 2)Console.WriteLine("\n---|---|---");
     }
     Console.WriteLine();
+    Console.WriteLine();
 }
 
 // Prepara e realiza jogada no tabuleiro
-void PrepararJogada (char simbolo, char[,] tabuleiro)
+void PrepararJogada (char simbolo, char[,] tabuleiro, int velha)
 {
     ImprimirTabuleiro(tabuleiro);
-    Console.Write("\nSimbolo atual [{0}]: ", simbolo);
+    if (velha == 1) Console.WriteLine("(Empate encontrado)");
+    Console.Write("Jogador {0}, insira [{1}]: ", (simbolo == 'X'? 1 : 2), simbolo);
     char.TryParse(Console.ReadLine(), out char posicao);
 
     // Caso jogada for inválida, reiniciar função através de recursiva
-    if (!ExecutarJogada(posicao, simbolo, tabuleiro)) PrepararJogada(simbolo, tabuleiro);
+    if (!ExecutarJogada(posicao, simbolo, tabuleiro)) PrepararJogada(simbolo, tabuleiro, velha);
 }
 
 // Troca o simbolo conforme o que já está sendo utilizado
@@ -102,17 +104,21 @@ bool ExecutarJogada (char posicao, char simbolo, char[,] tabuleiro)
 }
 
 // Verificação de fim de jogo
-bool VerificarFim (int rodada, char[,] tabuleiro, ref bool velha)
+bool VerificarFim (int rodada, char[,] tabuleiro, ref int velha)
 {
     if (rodada >= 5)
     {
         if (VerificarVitoria(tabuleiro)) return true;
     }
 
+    if (rodada >= 6)
+    {
+        if (VerificarVelha(tabuleiro)) velha = 1;
+    }
+
     if (rodada == 9)
     {
-        Console.WriteLine("Deu velha!");
-        velha = true;
+        velha = 2;
         return true;
     }
     return false;
@@ -150,6 +156,18 @@ bool VerificarVitoria(char[,] tabuleiro)
     {
         return true;
     }
+
+    return false;
+}
+
+// Verificação antecipada de empate
+bool VerificarVelha(char[,] tabuleiro)
+{
+    // Verifica se linhas 0 e 2 estão preenchidas alternadamente
+    if (tabuleiro[0, 0] == tabuleiro[0, 2] && tabuleiro[0, 1] == tabuleiro[2, 0] && tabuleiro[0, 1] == tabuleiro[2, 2]) return true;
+    
+    // Verifica se colunas 0 e 2 estão preenchidas alternadamente
+    if (tabuleiro[0, 0] == tabuleiro[2, 0] && tabuleiro[1, 0] == tabuleiro[0, 2] && tabuleiro[1, 0] == tabuleiro[2, 2]) return true;
 
     return false;
 }
